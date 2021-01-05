@@ -11,6 +11,7 @@ params:
   means: [0, 0, 0]
   stds: [1, 1, 1]
   color_mode: "bgr"
+  output_idx: [1]  # output binding idx
 misc:
   show_time: true
 inputs:  # for main.cpp to test the algorithm

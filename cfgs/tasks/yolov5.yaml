@@ -15,7 +15,7 @@ params:
   color_mode: "rgb"
   means: [0, 0, 0]
   stds: [255, 255, 255]
-  output_index: [1, 2, 3]
+  output_index: [1, 2, 3]  # output binding idx
 misc:
   show_time: true
 inputs:  # for main.cpp to test the algorithm

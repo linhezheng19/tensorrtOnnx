@@ -10,7 +10,7 @@ params:
   nms_thresh: 0.6
   means: [0, 0, 0]
   stds: [255, 255, 255]
-  output_index: [1, 2, 3, 4]
+  output_index: [1, 2, 3, 4]  # output binding idx
   color_mode: "bgr"
 misc:
   show_time: true

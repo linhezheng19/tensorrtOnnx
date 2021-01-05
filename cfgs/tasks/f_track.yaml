@@ -14,7 +14,7 @@ params:
   ratio_thresh: 0.0
   means: [103.52, 116.28, 123.675]
   stds: [57.375, 57.12, 58.395]
-  output_index: [4, 9, 5, 7, 2, 8, 3, 6, 1, 10, 11, 12]
+  output_index: [4, 9, 5, 7, 2, 8, 3, 6, 1, 10, 11, 12]  # output binding idx
   color_mode: "bgr"
 misc:
   show_time: true
