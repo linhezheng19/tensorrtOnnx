@@ -1,0 +1,21 @@
+engine:
+  gpu_id: 0
+  nx: false  # if build engine on nx, must set false while gpu_id is not 0
+  mode: 16  # 32/16/8 mean fp32/fp16/int8
+  workspace: 2048  # MB
+  onnx_file: "../models/fcoslite-imprv_MV3-LM-1.0-FPNLITE64@4T8-P5_syncbn32_2x-wd5e5_ms540_hf_2x3x384x1152.onnx"
+  engine_file: "../models/fcoslite-imprv_MV3-LM-1.0-FPNLITE64@4T8-P5_syncbn32_2x-wd5e5_ms540_hf_2x3x384x1152_fp16.bin"
+  bchw: [2, 3, 384, 1152]
+params:
+  nms_thresh: 0.6
+  means: [0, 0, 0]
+  stds: [255, 255, 255]
+  output_index: [1, 2, 3, 4]
+  color_mode: "bgr"
+misc:
+  show_time: true
+inputs:  # for main.cpp to test the algorithm
+  video_path: ""
+  img_path: "../data/sample_data/coco_1.jpg"
+  width: 1152
+  height: 384

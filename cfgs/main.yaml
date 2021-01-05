@@ -1,0 +1,22 @@
+misc:
+  multithreading: false
+  runtimes: 200
+tasks:
+  cls: false
+  semseg: false
+  fcos: false
+  yolo: true
+  fairmot: false
+  f_track: false
+cls:
+  cfg_file: "../cfgs/tasks/cls.yaml"
+semseg:
+  cfg_file: "../cfgs/tasks/semseg.yaml"
+fcos:
+  cfg_file: "../cfgs/tasks/fcos.yaml"
+yolo:
+  cfg_file: "../cfgs/tasks/yolov5.yaml"
+fairmot:
+  cfg_file: "../cfgs/tasks/fairmot.yaml"
+f_track:
+  cfg_file: "../cfgs/tasks/f_track.yaml"

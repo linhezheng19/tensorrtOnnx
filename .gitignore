@@ -30,3 +30,22 @@
 *.exe
 *.out
 *.app
+
+# Data
+*.jpg
+*.png
+*.mp4
+*.json
+!data/sample_data/*.jpg
+!data/sample_data/*.png
+
+# Build
+build/
+
+# Models
+*.onnx
+*.bin
+models/*
+
+# Others
+.vscode/

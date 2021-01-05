@@ -1,0 +1,41 @@
+engine:
+  gpu_id: 0
+  nx: false  # if build engine on nx, must set false while gpu_id is not 0
+  mode: 16  # 32/16/8 mean fp32/fp16/int8
+  workspace: 2048  # MB
+  onnx_file: "../models/fcos_DLA-34c-FPN64@3T5-ST2-SYNCBN64_2reidconv_withcoco_4x-BCHW_2x3x480x1632.onnx"
+  engine_file: "../models/fcos_DLA-34c-FPN64@3T5-ST2-SYNCBN64_2reidconv_withcoco_4x-BCHW_2x3x480x1632_fp16.bin"
+  bchw: [2, 3, 480, 1632]
+params:
+  num_classes: 1
+  det_thresh: 0.39
+  nms_thresh: 0.6
+  area_thresh: 900.0
+  ratio_thresh: 0.0
+  means: [103.52, 116.28, 123.675]
+  stds: [57.375, 57.12, 58.395]
+  output_index: [4, 9, 5, 7, 2, 8, 3, 6, 1, 10, 11, 12]
+  color_mode: "bgr"
+misc:
+  show_time: true
+sub_tasks:  # if you don't need run sub task, remove all the config below
+  tasks: []  # only cls for now
+  cls:
+    engine:
+      gpu_id: 0
+      nx: false  # if build engine on nx, must set false while gpu_id is not 0
+      mode: 16  # 32/16/8 mean fp32/fp16/int8
+      workspace: 2048  # MB
+      onnx_file: "../models/mobilenet_v3_small_0.5_1x_56_BCHW_2x3x56x56.onnx"
+      engine_file: "../models/mobilenet_v3_small_0.5_1x_56_BCHW_2x3x56x56_fp16.bin"
+      bchw: [2, 3, 56, 56]
+    params:
+      nms_thresh: 0.6
+      num_classes: 1000
+    misc:
+      show_time: true
+inputs:  # for main.cpp to test the algorithm
+  video_path: ""
+  img_path: "../data/sample_data/coco_1.jpg"
+  width: 1632
+  height: 480
