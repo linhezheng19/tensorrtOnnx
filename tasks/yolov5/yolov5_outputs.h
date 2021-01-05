@@ -14,7 +14,7 @@
 
 #include <NvInfer.h>
 
-#include "struct.h"
+#include "structs.h"
 #include "yolov5.h"
 
 using namespace std;

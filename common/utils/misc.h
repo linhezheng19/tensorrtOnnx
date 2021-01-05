@@ -1,5 +1,5 @@
 /**
- * Create by linhezheng.
+ * Created by linhezheng.
  * Some general functions.
  * 2020/09/01
  */

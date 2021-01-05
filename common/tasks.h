@@ -1,5 +1,5 @@
 /**
- * Create by linhezheng.
+ * Created by linhezheng.
  * Basic Task API. Task is basic class of all tasks, and other classes of task
  * is basic class for relevant methods. The main purpose is to achieve some 
  * common operations.
@@ -16,7 +16,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "engine.h"
-#include "struct.h"
+#include "structs.h"
 #include "logger.h"
 #include "timer.h"
 #include "utils.h"
@@ -80,7 +80,7 @@ protected:
     ! processOutputs: get outputs from engine and process as you want, shold override it.
     */
     ClassificationTask(const YAML::Node& cfg);
-    virtual ~ClassificationTask();
+    virtual ~ClassificationTask() = default;
     virtual bool prepareInputs(const vector<Mat>& imgs) override;
     virtual vector<int> processOutputs() {};
 };
@@ -101,7 +101,7 @@ protected:
     ! processOutputs: get outputs from engine and process as you want, shold override it.
     */
     DetectionTask(const YAML::Node& cfg);
-    virtual ~DetectionTask();
+    virtual ~DetectionTask() = default;
     virtual bool prepareInputs(const vector<Mat>& imgs) override;
     virtual BatchBox processOutputs() {};
 };
@@ -123,7 +123,7 @@ protected:
     ! processOutputs: get outputs from engine and process as you want, shold override it.
     */
     TrackTask(const YAML::Node& cfg);
-    virtual ~TrackTask();
+    virtual ~TrackTask() = default;
     virtual bool prepareInputs(const vector<Mat>& imgs) override;
     virtual TrackRes processOutputs() {};
 };
@@ -145,7 +145,7 @@ protected:
     ! processOutputs: get outputs from engine and process as you want, shold override it.
     */
     SegmentationTask(const YAML::Node& cfg);
-    virtual ~SegmentationTask();
+    virtual ~SegmentationTask() = default;
     virtual bool prepareInputs(const vector<Mat>& imgs) override;
     virtual vector<Mat> processOutputs() {};
 };
@@ -167,7 +167,7 @@ protected:
     ! processOutputs: get outputs from engine and process as you want, shold override it.
     */
     KeypointTask(const YAML::Node& cfg);
-    virtual ~KeypointTask();
+    virtual ~KeypointTask() = default;
     virtual bool prepareInputs(const vector<Mat>& imgs) override;
     virtual vector<int> processOutputs() {};
 };

@@ -1,5 +1,5 @@
 /**
- * Create by linhezheng.
+ * Created by linhezheng.
  * Basic Task API.
  * 2020/09/01
  */
@@ -99,8 +99,6 @@ bool Task::prepareInputs(const vector<Mat>& imgs) {
 /* -==================Classification Task Class================*/
 ClassificationTask::ClassificationTask(const YAML::Node& cfg) : Task(cfg) {}
 
-ClassificationTask::~ClassificationTask() {}
-
 bool ClassificationTask::prepareInputs(const vector<Mat>& imgs) {
     return Task::prepareInputs(imgs);
 }
@@ -131,8 +129,6 @@ vector<int> ClassificationTask::run(const vector<Mat>& imgs) {
 
 /* -==================Detection Task Class================*/
 DetectionTask::DetectionTask(const YAML::Node& cfg) : Task(cfg) {}
-
-DetectionTask::~DetectionTask() {}
 
 bool DetectionTask::prepareInputs(const vector<Mat>& imgs) {
     return Task::prepareInputs(imgs);
@@ -165,8 +161,6 @@ BatchBox DetectionTask::run(const vector<Mat>& imgs) {
 /* -==================Track Task Class================*/
 TrackTask::TrackTask(const YAML::Node& cfg) : Task(cfg) {}
 
-TrackTask::~TrackTask() {}
-
 bool TrackTask::prepareInputs(const vector<Mat>& imgs) {
     return Task::prepareInputs(imgs);
 }
@@ -198,8 +192,6 @@ TrackRes TrackTask::run(const vector<Mat>& imgs){
 /* -==================Segmentation Task Class================*/
 SegmentationTask::SegmentationTask(const YAML::Node& cfg) : Task(cfg) {}
 
-SegmentationTask::~SegmentationTask() {}
-
 bool SegmentationTask::prepareInputs(const vector<Mat>& imgs) {
     return Task::prepareInputs(imgs);
 }
@@ -230,8 +222,6 @@ vector<Mat> SegmentationTask::run(const vector<Mat>& imgs) {
 
 /* -==================Keypoint Task Class================*/
 KeypointTask::KeypointTask(const YAML::Node& cfg) : Task(cfg) {}
-
-KeypointTask::~KeypointTask() {}
 
 bool KeypointTask::prepareInputs(const vector<Mat>& imgs) {
     return Task::prepareInputs(imgs);

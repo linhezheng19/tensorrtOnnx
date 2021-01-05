@@ -9,10 +9,9 @@
 
 #include "yaml-cpp/yaml.h"
 
-// #include "engine.h"
 #include "logger.h"
 #include "nhwc2nchw.h"
-#include "struct.h"
+#include "structs.h"
 #include "timer.h"
 #include "utils.h"
 #include "tasks.h"

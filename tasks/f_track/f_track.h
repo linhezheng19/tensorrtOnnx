@@ -7,10 +7,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-// #include "engine.h"
 #include "logger.h"
 #include "nhwc2nchw.h"
-#include "struct.h"
+#include "structs.h"
 #include "timer.h"
 #include "utils.h"
 #include "tasks.h"

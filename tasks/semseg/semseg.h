@@ -9,7 +9,7 @@
 
 #include "logger.h"
 #include "nhwc2nchw.h"
-#include "struct.h"
+#include "structs.h"
 #include "tasks.h"
 #include "timer.h"
 #include "utils.h"

@@ -11,7 +11,7 @@
 
 #include <NvInfer.h>
 
-#include "struct.h"
+#include "structs.h"
 
 BatchBox postProcess(std::vector <float*> inputs, std::vector<size_t> sizes, std::vector<nvinfer1::Dims> dims, int mModel_H, int mModel_W, int NumClass, float postThres, float nmsThres);
 

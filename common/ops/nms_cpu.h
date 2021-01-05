@@ -11,7 +11,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "struct.h"
+#include "structs.h"
 
 void nms_cpu(std::vector<Bbox> &bboxes, float threshold);
 

@@ -14,7 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "struct.h"
+#include "structs.h"
 
 using namespace std;
 

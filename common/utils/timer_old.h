@@ -1,5 +1,5 @@
 /**
- * Create by linhezheng.
+ * Created by linhezheng.
  * Timer based on api in "watch.h".
  * 2020/11/01
  */
