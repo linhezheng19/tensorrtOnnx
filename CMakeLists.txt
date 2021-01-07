@@ -67,15 +67,8 @@ include_directories(${TRT_ROOT}/include
                     ${PROJECT_SOURCE_DIR}/common/utils
                     )
 
-file(GLOB COMMON_SRC ${PROJECT_SOURCE_DIR}/common/*.cpp
-                     ${PROJECT_SOURCE_DIR}/common/ops/*.cpp
-                     ${PROJECT_SOURCE_DIR}/common/utils/*.cpp
-                     )
-
-file(GLOB COMMON_CUDA_SRC ${PROJECT_SOURCE_DIR}/common/*.cu
-                          ${PROJECT_SOURCE_DIR}/common/ops/*.cu
-                          ${PROJECT_SOURCE_DIR}/common/utils/*.cu
-                          )
+file(GLOB_RECURSE COMMON_CUDA_SRC ${PROJECT_SOURCE_DIR}/common/*.cu)
+file(GLOB_RECURSE COMMON_SRC ${PROJECT_SOURCE_DIR}/common/*.cpp)
 
 # Tasks sources
 include_directories(${PROJECT_SOURCE_DIR}/tasks/cls
@@ -87,7 +80,6 @@ include_directories(${PROJECT_SOURCE_DIR}/tasks/cls
                     )
 
 file(GLOB_RECURSE MODEL_SRC ${PROJECT_SOURCE_DIR}/tasks/*.cpp)
-
 file(GLOB_RECURSE MODEL_CUDA_SRC ${PROJECT_SOURCE_DIR}/tasks/*.cu)
 
 #---------- Library and Executable -----------#
@@ -98,10 +90,10 @@ link_directories(${TRT_ROOT}/lib
 
 #---------- CUDA Compiler --------------------#
 # cuda_add_library(cuda_lib SHARED ${COMMON_CUDA_SRC} ${MODEL_CUDA_SRC})
-cuda_add_executable(${PROJECT_NAME} main.cpp ${COMMON_CUDA_SRC} ${MODEL_CUDA_SRC} ${COMMON_SRC} ${MODEL_SRC})
+# cuda_add_executable(${PROJECT_NAME} main.cpp ${COMMON_CUDA_SRC} ${MODEL_CUDA_SRC} ${COMMON_SRC} ${MODEL_SRC})
 
 #---------- G++ Compiler ---------------------#
-# add_executable(${PROJECT_NAME} main.cpp ${COMMON_SRC} ${MODEL_SRC})
+add_executable(${PROJECT_NAME} main.cpp ${COMMON_SRC} ${MODEL_SRC} ${COMMON_CUDA_SRC} ${MODEL_CUDA_SRC})
 
 target_link_libraries(${PROJECT_NAME} nvinfer
                                       nvinfer_plugin
