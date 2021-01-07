@@ -29,11 +29,11 @@ RTEngine::~RTEngine() {
         mContext->destroy();
         mContext = nullptr;
     }
-    if (mEngine !=nullptr) {
+    if (mEngine != nullptr) {
         mEngine->destroy();
         mEngine = nullptr;
     }
-    for (size_t i=0;i<mBinding.size();i++) {
+    for (size_t i = 0;i < mBinding.size(); ++i) {
         safeCudaFree(mBinding[i]);
     }
 }
@@ -46,7 +46,7 @@ void RTEngine::CreateEngine(const std::string& onnxModel,
                             long workspace_size) {
     if (!DeserializeEngine(engineFile)) {
         if (!BuildEngine(onnxModel,engineFile,customOutput,maxBatchSize, runMode, workspace_size)) {
-            mInfoLogger.logger("error: could not deserialize or build engine");
+            mInfoLogger.logger("ERROR: could not deserialize or build engine");
             return;
         }
     }
@@ -117,23 +117,23 @@ nvinfer1::DataType RTEngine::GetBindingDataType(int bindIndex) const {
 
 void RTEngine::SaveEngine(const std::string& fileName) {
     if (fileName == "") {
-        mInfoLogger.logger("empty engine file name, skip save");
+        mInfoLogger.logger("Empty engine file name, skip save");
         return;
     }
     if (mEngine != nullptr) {
-        mInfoLogger.logger("save engine to: ", fileName);
+        mInfoLogger.logger("Save engine to: ", fileName);
         nvinfer1::IHostMemory* data = mEngine->serialize();
         std::ofstream file;
         file.open(fileName,std::ios::binary | std::ios::out);
         if(!file.is_open()) {
-            mInfoLogger.logger("read create engine file failed: ",fileName);
+            mInfoLogger.logger("Read create engine file failed: ",fileName);
             return;
         }
         file.write((const char*)data->data(), data->size());
         file.close();
         data->destroy();
     } else {
-        mInfoLogger.logger("engine is empty, save engine failed");
+        mInfoLogger.logger("Engine is empty, save engine failed");
     }
 }
 
@@ -238,11 +238,11 @@ void RTEngine::InitEngine() {
         nvinfer1::DataType dtype = mEngine->getBindingDataType(i);
         const char* name = mEngine->getBindingName(i);
         int64_t totalSize;
-        if (mFromOnnx)
+        if (mFromOnnx) {
             totalSize = volume(dims) * getElementSize(dtype);
-        else
+        } else {
             totalSize = volume(dims) * mBatchSize * getElementSize(dtype);
-//        std::cout << "\n\ndims :: " << volume(dims) << "  batch_in_trt :: "<< mBatchSize << "  element size :: " << getElementSize(dtype) << "\n\n\n";
+        }
         mBindingSize[i] = totalSize;
         mBindingName[i] = name;
         mBindingDims[i] = dims;

@@ -11,18 +11,28 @@ bool SEMSEG::prepareInputs(const vector<Mat>& imgs) {
 
 vector<Mat> SEMSEG::processOutputs() {
     vector<Mat> semseg_results(mBatchSize);
-    vector<uint8_t> semseg_outputs;
-    vector<int> idx_list = cfg["params"]["output_index"].as<vector<int>>();
-    // process outputs in semseg_outputs.cu
-    vector<float*> outputs;
-    vector<nvinfer1::Dims> dims;
-    for (auto idx : idx_list) {
-        nvinfer1::Dims dim = mNet->GetBindingDims(idx);
-        auto output = static_cast<float*>(mNet->GetBindingPtr(idx));
-        dims.emplace_back(dim);
-        outputs.emplace_back(output);
+    // process outputs in semseg_outputs.cu, for result tensor
+    // vector<int> idx_list = cfg["params"]["output_index"].as<vector<int>>();
+    // vector<float*> outputs;
+    // vector<nvinfer1::Dims> dims;
+    // for (auto idx : idx_list) {
+    //     nvinfer1::Dims dim = mNet->GetBindingDims(idx);
+    //     auto output = static_cast<float*>(mNet->GetBindingPtr(idx));
+    //     dims.emplace_back(dim);
+    //     outputs.emplace_back(output);
+    // }
+    // postProcess(outputs, semseg_results, dims);
+    // copy to mat directly, for tensor is after argmax function.
+    int output_idx = 1;
+    int stride = mModel_W * mModel_H;
+    vector<float> semseg_outputs(mBatchSize * mNumClasses * stride);
+    mNet->CopyFromDeviceToHost(semseg_outputs, output_idx, mStream);
+    for (int b = 0; b < mBatchSize; ++b) {
+        auto output = vector<float>(semseg_outputs.begin() + stride * b, semseg_outputs.begin() + stride * (b + 1));
+        Mat temp = Mat(output);
+        Mat semseg = temp.reshape(1, mModel_H).clone();
+        semseg_results.emplace_back(semseg);
     }
-    postProcess(outputs, semseg_results, dims);
     return semseg_results;
 }
 

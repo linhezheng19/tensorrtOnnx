@@ -22,19 +22,26 @@ int main(){
     //cfg
     YAML::Node main_cfg = YAML::LoadFile("../cfgs/main.yaml");
     YAML::Node task = main_cfg["tasks"];
-    YAML::Node f_track_cfg, fcos_cfg, fairmot_cfg, cls_cfg, yolo_cfg;
+    YAML::Node f_track_cfg, fcos_cfg, fairmot_cfg, cls_cfg, yolo_cfg, semseg_cfg;
 
     FTrack* f_track = nullptr;
     FCOS*    fcos    = nullptr;
     FairMOT* fairmot = nullptr;
     CLS*     cls     = nullptr;
     YOLOV5*  yolo    = nullptr;
+    SEMSEG*  semseg  = nullptr;
 
 /* -==================Classification task================*/
     if (task["cls"] && task["cls"].as<bool>()){
         string cfg_file = main_cfg["cls"]["cfg_file"].as<string>();
         cls_cfg =  YAML::LoadFile(cfg_file);
         cls = new CLS(cls_cfg);
+    }
+/* -==================Segmentation task================*/
+    if (task["semseg"] && task["semseg"].as<bool>()){
+        string semseg_file = main_cfg["semseg"]["cfg_file"].as<string>();
+        semseg_cfg =  YAML::LoadFile(semseg_file);
+        semseg = new SEMSEG(semseg_cfg);
     }
 /* -==================Track task=======================*/
     if (task["fairmot"] && task["fairmot"].as<bool>()){
@@ -63,6 +70,7 @@ int main(){
 /* -==================Run tasks=================*/
     int count = main_cfg["misc"]["runtimes"].as<int>();
     // multithreading
+    // NOTE: not complement yet.
     if(main_cfg["misc"]["multithreading"].as<bool>())
     {
         for (size_t i = 0; i < count; i++)
@@ -134,7 +142,25 @@ int main(){
             delete cls;
             cls = nullptr;
         }
-/* -==================classification task================*/
+/* -==================segmentation task================*/
+        if (semseg){
+            for (size_t i = 0; i < count; i++)
+            {
+                cv::Mat frame = imread(semseg_cfg["inputs"]["img_path"].as<string>());
+                int im_w = semseg_cfg["inputs"]["width"].as<int>();
+                int im_h = semseg_cfg["inputs"]["height"].as<int>();
+                cv::resize(frame, frame, cv::Size(im_w, im_h));
+                int batch_size = semseg_cfg["engine"]["bchw"].as<vector<int>>()[0];
+                vector<cv::Mat> imgs;
+                for(int i = 0; i < batch_size; i++){
+                    imgs.emplace_back(frame);
+                }
+                auto semseg_results = semseg->run(imgs);
+            }
+            delete semseg;
+            semseg = nullptr;
+        }
+/* -==================track task================*/
         // fairmot
         if (fairmot){
             for (size_t i = 0; i < count; i++)
@@ -194,8 +220,6 @@ int main(){
                 // auto end = chrono::system_clock::now();
                 // auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
                 // cout << "Infer Timer : " << duration.count() << "ms" << endl;
-                // string t_name = "cls";
-                // auto sub_results = fcos->runSubTasks<int>(t_name);
                 // vis_detection(fcos_results, imgs);
                 // cv::imwrite("../data/fcos_results.jpg", imgs[0]);
             }
