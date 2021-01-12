@@ -1,13 +1,15 @@
 ## Changelog
 
-### v0.3 (in processing)
+### 11/1/2021
 - Code style standardization.
 - New timer.
 
 **Tasks**
-- yolov5
+- Yolov5.
+- Semantic segmentation.
+- Remove sub-tasks in fcos and f_track.
 
-### v0.2 (18/11/2020)
+### 18/11/2020
 - Support TensorRT 7.1.
 - Code style standardization.
 - YAML configuration.
@@ -19,7 +21,7 @@
 - FCOS
 - Classification
 
-### v0.1 (01/09/2020)
+### 01/09/2020
 - First release version of TensorPriv.
 - Support TensorRT 7.0.
 
