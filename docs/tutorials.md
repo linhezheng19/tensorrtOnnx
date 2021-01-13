@@ -1,4 +1,4 @@
-## Simple Tutorials
+## Simple Tutorials(Not detailed yet, to be added)
 All task implement two basic parts, pipeline and post process. Post could be programmed in CUDA, simple cuda examples in [here](https://github.com/00hz/cuda-rt-examples.git).
 
 ### CLS
