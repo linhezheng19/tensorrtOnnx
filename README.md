@@ -15,7 +15,9 @@ Please refer to [changelog.md](docs/changelog.md) for details and change history
 ### Getting Start
 
 First clone this repo to your workspace, and enter this folder, then execute commands following below. After the executable file is generated, run it. 
-#### You need to modified the `cfgs/main.yaml` to turn on the task you want to excute and prepare corresponding model following [tutorials](docs/tutorials.md).
+#### Note
+
+You need to modified the `cfgs/main.yaml` to turn on the task you want to excute and prepare corresponding model following [tutorials](docs/tutorials.md).
 
 ```
 $ cp ${ONNX_MODEL_PATH} models
