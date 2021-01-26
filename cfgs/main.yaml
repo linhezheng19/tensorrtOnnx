@@ -3,9 +3,9 @@ misc:
   runtimes: 200
 tasks:
   cls: false
-  semseg: true
+  semseg: false
   fcos: false
-  yolo: false
+  yolo: true
   fairmot: false
   f_track: false
 cls:
