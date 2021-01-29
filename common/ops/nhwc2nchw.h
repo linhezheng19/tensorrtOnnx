@@ -7,8 +7,9 @@
 #define NWHC2NCHW_H
 
 #include <cuda.h>
-#include <cuda_runtime.h>
 #include <array>
+
+#include "utils.h"
 
 #define BLOCK 512
 
@@ -24,7 +25,7 @@ __global__ void transpose_kernel(
         const float var_0,
         const float var_1,
         const float var_2,
-        const bool bgr_mode=true);
+        const ImageFormat format);
 
 extern "C" void NHWC2NCHW(
         const uint8_t* input,
@@ -38,6 +39,6 @@ extern "C" void NHWC2NCHW(
         const float var_0,
         const float var_1,
         const float var_2,
-        const bool bgr_mode=true);
+        const ImageFormat format);
 
 #endif  // NWHC2NCHW_H

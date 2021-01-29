@@ -302,7 +302,7 @@ int main(){
                     vector<cv::Mat> imgs;
                     for(int i = 0; i < batch_size; i++){
                         cv::Mat frame = imread(yolo_cfg["inputs"]["img_path"].as<string>());
-                        cv::resize(frame, frame, cv::Size(im_w, im_h));
+//                        cv::resize(frame, frame, cv::Size(im_w, im_h));  // resize in yolov5.cpp
                         imgs.emplace_back(frame);
                     }
                     auto yolo_results = yolo->run(imgs);

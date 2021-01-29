@@ -28,7 +28,6 @@ void YOLOV5::initParams() {
     mYoloParams.nms_thresh  = cfg["params"]["nms_thresh"].as<float>();
     mYoloParams.post_thresh = cfg["params"]["post_thresh"].as<float>();
     mYoloParams.padding     = cfg["params"]["padding"].as<bool>();
-    mYoloParams.color_mode  = cfg["params"]["color_mode"].as<string>();
 }
 
 bool YOLOV5::prepareInputs(const vector<Mat>& imgs) {
@@ -64,10 +63,7 @@ bool YOLOV5::prepareInputs(const vector<Mat>& imgs) {
 //    cout << "imgs[i].data " << (float)processed_ims[0].data[0] << " "<< (float)processed_ims[0].data[1] << " "<< (float)processed_ims[0].data[2]<<endl;
     vector<float> means = cfg["params"]["means"].as<vector<float>>();
     vector<float> stds  = cfg["params"]["stds"].as<vector<float>>();
-    string color_mode   = cfg["params"]["color_mode"].as<string>();
-    bool bgr_mode = true;
-    if (color_mode == "rgb")
-        bgr_mode = false;
+
     NHWC2NCHW(
             mInputDataNHWC,
             (float*)mNet->GetBindingPtr(0),
@@ -76,7 +72,7 @@ bool YOLOV5::prepareInputs(const vector<Mat>& imgs) {
             mModel_W,
             means[0], means[1], means[2],
             stds[0], stds[1], stds[2],
-            bgr_mode);
+            mImageFormat);
 //    float* test_im = (float*)malloc(640*640*3*sizeof(float));
 //    cudaMemcpy(test_im, (float*)mNet->GetBindingPtr(0), 640*640*3*sizeof(float), cudaMemcpyDeviceToHost);
 //    cout << "imgsL : " << test_im[0] << " " << test_im[1] << " " << test_im[2] << endl;

@@ -23,6 +23,13 @@ enum class RunMode : int {
     kINT8
 };
 
+enum class ImageFormat : int {
+    kRGB,
+    kRGB255,
+    kBGR,
+    kBGR255
+};
+
 inline int64_t volume(const nvinfer1::Dims& d) {
     return std::accumulate(d.d, d.d + d.nbDims, 1, std::multiplies<int64_t>());
 }

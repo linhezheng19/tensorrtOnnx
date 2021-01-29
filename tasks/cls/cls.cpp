@@ -18,7 +18,8 @@ bool CLS::prepareInputs(uint8_t* imgs) {
             mModel_H,
             mModel_W,
             103.52, 116.28, 123.675,
-            57.375,57.12,58.395);
+            57.375,57.12,58.395,
+            mImageFormat);
 //    float* cls_f = (float*)malloc(10*sizeof(float));
 //    cudaMemcpy(cls_f, (float*)mNet->GetBindingPtr(0), 10*sizeof(float), cudaMemcpyDeviceToHost);
 //    cout << "* GetBindingPtr0" << * cls_f << * (cls_f + 1) << * (cls_f + 2) <<endl;

@@ -22,6 +22,15 @@ Task::Task(const YAML::Node& cfg) : cfg(cfg) {
     // create timer
     mTimer = new Timer(mStream, cfg["misc"]["show_time"].as<bool>());
 
+    // set image format: rgb, rgb255, bgr, bgr255
+    int format = cfg["params"]["image_format"].as<int>();
+    switch (format) {
+        case (0): mImageFormat = ImageFormat::kRGB; break;
+        case (1): mImageFormat = ImageFormat::kRGB255; break;
+        case (2): mImageFormat = ImageFormat::kBGR; break;
+        case (3): mImageFormat = ImageFormat::kBGR255; break;
+    }
+
     // init Net
     int mode = cfg["engine"]["mode"].as<int>();
     switch(mode) {
@@ -76,10 +85,7 @@ bool Task::prepareInputs(const vector<Mat>& imgs) {
 //    cout << "imgs[i].data " << (float)imgs[0].data[0] << " "<< (float)imgs[0].data[1] << " "<< (float)imgs[0].data[2]<<endl;
     vector<float> means = cfg["params"]["means"].as<vector<float>>();
     vector<float> stds  = cfg["params"]["stds"].as<vector<float>>();
-    string color_mode   = cfg["params"]["color_mode"].as<string>();
-    bool bgr_mode = true;
-    if (color_mode == "rgb")
-        bgr_mode = false;
+
     NHWC2NCHW(
             mInputDataNHWC,
             (float*)mNet->GetBindingPtr(0),
@@ -88,7 +94,7 @@ bool Task::prepareInputs(const vector<Mat>& imgs) {
             mModel_W,
             means[0], means[1], means[2],
             stds[0], stds[1], stds[2],
-            bgr_mode);
+            mImageFormat);
     // debug code
 //    uint8_t* cls_f = (uint8_t*)malloc(320*320*3*sizeof(uint8_t));
 //    cudaMemcpy(cls_f, mInputDataNHWC, 320*320*3*sizeof(uint8_t), cudaMemcpyDeviceToHost);

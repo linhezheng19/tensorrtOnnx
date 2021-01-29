@@ -10,7 +10,7 @@ params:
   num_classes: 1000
   means: [127.5, 127.5, 127.5]
   stds: [128, 128, 128]
-  color_mode: "bgr"
+  image_format: 3  # 0: rgb, 1: rgb255, 2: bgr, 3: bgr255
 misc:
   show_time: true
 inputs:  # for main.cpp to test the algorithm

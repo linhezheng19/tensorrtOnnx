@@ -46,6 +46,7 @@ protected:
     RTEngine*      mNet;
     cudaStream_t   mStream;
     RunMode        mRunMode;
+    ImageFormat    mImageFormat;
     Timer*         mTimer;
     logger::Logger mLogger;
 

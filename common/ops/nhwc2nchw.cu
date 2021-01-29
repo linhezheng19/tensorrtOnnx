@@ -12,7 +12,7 @@ __global__ void transpose_kernel(
         const float var_0,
         const float var_1,
         const float var_2,
-        const bool bgr_mode) {
+        const ImageFormat format) {
     int stride = h * w;
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -23,14 +23,17 @@ __global__ void transpose_kernel(
     const uint8_t* ip = input + idx * 3;
     float* op = output + idx + pn * 2 * stride;
 
-    if (bgr_mode) {
-        op[0] = (float)(ip[0] - mean_0) / var_0;
-        op[stride] = (float)(ip[1] - mean_1) / var_1;
-        op[2 * stride] = (float)(ip[2] - mean_2) / var_2;
+    float scale_factor = 1.f;
+    if (format == ImageFormat::kRGB || format == ImageFormat::kBGR) scale_factor = 1.f / 255.f;
+
+    if (format == ImageFormat::kBGR || format == ImageFormat::kBGR255) {
+        op[0]          = ((float)ip[0] * scale_factor - mean_0) / var_0;
+        op[stride]     = ((float)ip[1] * scale_factor - mean_1) / var_1;
+        op[2 * stride] = ((float)ip[2] * scale_factor - mean_2) / var_2;
     } else {
-        op[0] = (float)(ip[2] - mean_0) / var_0;
-        op[stride] = (float)(ip[1] - mean_1) / var_1;
-        op[2 * stride] = (float)(ip[0] - mean_2) / var_2;
+        op[0]          = ((float)ip[2] * scale_factor - mean_0) / var_0;
+        op[stride]     = ((float)ip[1] * scale_factor - mean_1) / var_1;
+        op[2 * stride] = ((float)ip[0] * scale_factor - mean_2) / var_2;
     }
 
 }
@@ -47,8 +50,8 @@ void NHWC2NCHW(
         const float var_0,
         const float var_1,
         const float var_2,
-        const bool bgr_mode) {
+        const ImageFormat format) {
     transpose_kernel<<<(n * h * w - 1) / BLOCK + 1, BLOCK>>>(input, output, n, h, w,
                                                              mean_0, mean_1, mean_2,
-                                                             var_0, var_1, var_2, bgr_mode);
+                                                             var_0, var_1, var_2, format);
 }
