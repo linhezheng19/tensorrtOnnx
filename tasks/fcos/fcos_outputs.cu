@@ -23,7 +23,7 @@ BatchBox postProcess(vector <float*> inputs,vector<size_t >sizes, vector<nvinfer
 #define CPU
 #ifdef CPU
     int batch_size = dims[0].d[0];
-	vector<vector<array<float, 5>>> batch_boxes;
+	vector<vector<array<float, 6>>> batch_boxes;
 //	batch_boxes.resize(batch_size);
 
 	for (int b = 0; b < batch_size; ++b) {
@@ -100,14 +100,15 @@ BatchBox postProcess(vector <float*> inputs,vector<size_t >sizes, vector<nvinfer
 //                 << "  cid : " << box.cid
 //                 <<endl;
 //        }
-		vector<array<float, 5>> one_img_box;
+		vector<array<float, 6>> one_img_box;
 		for (int i = 0; i < bboxes.size(); ++i) {
 			float x1 = static_cast<float>(bboxes[i].xmin);
 			float y1 = static_cast<float>(bboxes[i].ymin);
 			float x2 = static_cast<float>(bboxes[i].xmax);
 			float y2 = static_cast<float>(bboxes[i].ymax);
-			float c = static_cast<float>(bboxes[i].score);
-			array<float, 5> one_box = {x1, y1, x2, y2, c};
+			float s = static_cast<float>(bboxes[i].score);
+			float c = static_cast<float>(bboxes[i].cid);
+			array<float, 6> one_box = {x1, y1, x2, y2, s, c};
 //			 cout << "box : " << x1<<" " << y1<<" " << x2<<" " << y2<<" " << c<<endl;
 			one_img_box.push_back(one_box);
 		}

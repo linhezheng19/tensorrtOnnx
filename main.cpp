@@ -31,38 +31,71 @@ int main(){
     YOLOV5*  yolo    = nullptr;
     SEMSEG*  semseg  = nullptr;
 
+    int gpu_id = 0;
+    bool on_nx = false;
+
 /* -==================Classification task================*/
     if (task["cls"] && task["cls"].as<bool>()){
         string cfg_file = main_cfg["cls"]["cfg_file"].as<string>();
         cls_cfg =  YAML::LoadFile(cfg_file);
+        gpu_id = cls_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = cls_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         cls = new CLS(cls_cfg);
     }
 /* -==================Segmentation task================*/
     if (task["semseg"] && task["semseg"].as<bool>()){
         string semseg_file = main_cfg["semseg"]["cfg_file"].as<string>();
         semseg_cfg =  YAML::LoadFile(semseg_file);
+	    gpu_id = semseg_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = semseg_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         semseg = new SEMSEG(semseg_cfg);
     }
 /* -==================Track task=======================*/
     if (task["fairmot"] && task["fairmot"].as<bool>()){
         string cfg_file = main_cfg["fairmot"]["cfg_file"].as<string>();
         fairmot_cfg =  YAML::LoadFile(cfg_file);
+	    gpu_id = fairmot_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = fairmot_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         fairmot = new FairMOT(fairmot_cfg);
     }
     if (task["f_track"] && task["f_track"].as<bool>()){
         string cfg_file = main_cfg["f_track"]["cfg_file"].as<string>();
         f_track_cfg =  YAML::LoadFile(cfg_file);
+	    gpu_id = f_track_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = f_track_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         f_track = new FTrack(f_track_cfg);
     }
 /* -==================Detection task=================*/
     if (task["fcos"] && task["fcos"].as<bool>()){
         string cfg_file = main_cfg["fcos"]["cfg_file"].as<string>();
         fcos_cfg =  YAML::LoadFile(cfg_file);
+	    gpu_id = fcos_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = fcos_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         fcos = new FCOS(fcos_cfg);
     }
     if (task["yolo"] && task["yolo"].as<bool>()){
         string cfg_file = main_cfg["yolo"]["cfg_file"].as<string>();
         yolo_cfg =  YAML::LoadFile(cfg_file);
+	    gpu_id = yolo_cfg["engine"]["gpu_id"].as<int>();
+        on_nx = yolo_cfg["engine"]["nx"].as<bool>();
+        if (!on_nx) {
+            cudaSetDevice(gpu_id);
+        }
         yolo = new YOLOV5(yolo_cfg);
     }
 
@@ -126,6 +159,11 @@ int main(){
     {
 /* -==================classification task================*/
         if (cls){
+	        gpu_id = cls_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = cls_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = cls_cfg["inputs"]["width"].as<int>();
             int im_h = cls_cfg["inputs"]["height"].as<int>();
             int batch_size = cls_cfg["engine"]["bchw"].as<vector<int>>()[0];
@@ -170,6 +208,11 @@ int main(){
         }
 /* -==================segmentation task================*/
         if (semseg){
+            gpu_id = semseg_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = semseg_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = semseg_cfg["inputs"]["width"].as<int>();
             int im_h = semseg_cfg["inputs"]["height"].as<int>();
             int batch_size = semseg_cfg["engine"]["bchw"].as<vector<int>>()[0];
@@ -215,6 +258,11 @@ int main(){
 /* -==================detection task================*/
         // fcos
         if (fcos){
+            gpu_id = fcos_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = fcos_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = fcos_cfg["inputs"]["width"].as<int>();
             int im_h = fcos_cfg["inputs"]["height"].as<int>();
             int batch_size = fcos_cfg["engine"]["bchw"].as<vector<int>>()[0];
@@ -268,6 +316,11 @@ int main(){
         }
         // yolo
         if (yolo){
+            gpu_id = yolo_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = yolo_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = yolo_cfg["inputs"]["width"].as<int>();
             int im_h = yolo_cfg["inputs"]["height"].as<int>();
             int batch_size = yolo_cfg["engine"]["bchw"].as<vector<int>>()[0];
@@ -316,6 +369,11 @@ int main(){
 /* -==================track task================*/
         // fairmot
         if (fairmot){
+            gpu_id = fairmot_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = fairmot_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = fairmot_cfg["inputs"]["width"].as<int>();
             int im_h = fairmot_cfg["inputs"]["height"].as<int>();
             int batch_size = fairmot_cfg["engine"]["bchw"].as<vector<int>>()[0];
@@ -360,6 +418,11 @@ int main(){
         }
         // f-track
         if (f_track){
+            gpu_id = f_track_cfg["engine"]["gpu_id"].as<int>();
+            on_nx = f_track_cfg["engine"]["nx"].as<bool>();
+            if (!on_nx) {
+                cudaSetDevice(gpu_id);
+            }
             int im_w = f_track_cfg["inputs"]["width"].as<int>();
             int im_h = f_track_cfg["inputs"]["height"].as<int>();
             int batch_size = f_track_cfg["engine"]["bchw"].as<vector<int>>()[0];

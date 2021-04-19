@@ -40,7 +40,7 @@ Task::Task(const YAML::Node& cfg) : cfg(cfg) {
         default  : mRunMode = RunMode::kFP32; break;
     }
 
-    if (!mNX_ON) cudaSetDevice(mGPU_ID);
+    // if (!mNX_ON) cudaSetDevice(mGPU_ID);
     mNet = new RTEngine();
 
     if (!initEngine()) {

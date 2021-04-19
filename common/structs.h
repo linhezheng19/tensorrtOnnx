@@ -10,7 +10,7 @@
 #include <array>
 #include <string>
 
-typedef std::vector<std::vector<std::array<float, 5>>> BatchBox;
+typedef std::vector<std::vector<std::array<float, 6>>> BatchBox;
 typedef std::pair<std::vector<std::vector<std::array<float, 5>>>, std::vector<std::vector<std::vector<float>>>> TrackRes;
 
 struct Bbox{

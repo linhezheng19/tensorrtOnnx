@@ -20,7 +20,7 @@ using namespace std;
 
 inline void vis_detection(BatchBox boxes, vector<cv::Mat>& ims) {
     for (int i = 0; i < ims.size(); i++) {
-        vector<array<float, 5>> box = boxes[i];
+        vector<array<float, 6>> box = boxes[i];
         for (auto b : box) {
             cv::Point p1 = cv::Point(static_cast<int>(b[0]), static_cast<int>(b[1]));
             cv::Point p2 = cv::Point(static_cast<int>(b[2]), static_cast<int>(b[3]));
